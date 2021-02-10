@@ -54,4 +54,11 @@ public class BookController {
         List<BookEntity> books = bookService.getAllBooksByAuthor(authorId, authorDto);
         return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
+
+    @PutMapping(value = "/author/{authorId}/book/{bookId}")
+    public ResponseEntity<?> addBookToAuthor(@PathVariable(name = "authorId") Long authorId,
+                                   @PathVariable(name = "bookId") Long bookId,
+                                   @RequestBody AuthorDto authorDto) {
+        return bookService.addBookToAuthor(authorId, bookId, authorDto);
+    }
 }

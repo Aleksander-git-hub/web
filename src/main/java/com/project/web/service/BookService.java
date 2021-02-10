@@ -2,6 +2,7 @@ package com.project.web.service;
 
 import com.project.web.dto.AuthorDto;
 import com.project.web.dto.BookDto;
+import com.project.web.entity.AuthorEntity;
 import com.project.web.entity.BookEntity;
 import com.project.web.exceptions.NotFoundException;
 import com.project.web.mapper.BookMapper;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,4 +85,13 @@ public class BookService {
                 stream().filter(bookEntity -> authorDto.getId().equals(authorId))
                 .collect(Collectors.toList());
     }
+
+    public ResponseEntity<?> addBookToAuthor(Long authorId, Long bookId, AuthorDto authorDto) {
+        if (!authorRepository.existsById(authorId)) {
+            throw new NotFoundException("Author not found with id: " + authorId);
+        }
+
+
+    }
+
 }
