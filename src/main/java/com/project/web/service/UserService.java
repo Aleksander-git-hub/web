@@ -57,6 +57,7 @@ public class UserService {
             existingUser.setSecondName(userDto.getSecondName());
             existingUser.setAge(userDto.getAge());
             existingUser.setEmail(userDto.getEmail());
+            existingUser.setBooks(userDto.getBooks());
         }
         return userRepository.save(existingUser);
     }

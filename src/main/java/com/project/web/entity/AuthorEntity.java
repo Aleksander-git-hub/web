@@ -1,6 +1,8 @@
 package com.project.web.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,17 +11,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users_table")
-public class User {
+@Table(name = "authors")
+public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String secondName;
-    private Integer age;
-    private String email;
     private Boolean deleted = false;
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @ManyToMany(mappedBy = "authors")
     private List<BookEntity> books;
+
 }
