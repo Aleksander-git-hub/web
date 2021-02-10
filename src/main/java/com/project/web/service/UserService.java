@@ -5,6 +5,7 @@ import com.project.web.entity.User;
 import com.project.web.exceptions.NotFoundException;
 import com.project.web.mapper.UserMapper;
 import com.project.web.repository.UserRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,11 @@ public class UserService {
     private UserMapper userMapper;
 
     public User saveUser(UserDto userDto) {
+        if (StringUtils.isEmpty(userDto.getFirstName()) ||
+                StringUtils.isEmpty(userDto.getSecondName()) ||
+                StringUtils.isEmpty(userDto.getEmail())) {
+            throw new NotFoundException("Fields are empty! Please, check this!");
+        }
         return userRepository.save(userMapper.toEntity(userDto));
     }
 
@@ -42,13 +48,16 @@ public class UserService {
     public User updateUserById(UserDto userDto, Long id) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
-        /*if (StringUtils.isEmpty(userDto.getFirstName())) {
-            throw new NotFoundException("Fields can not empty!");
-        }*/
-        existingUser.setFirstName(userDto.getFirstName());
-        existingUser.setSecondName(userDto.getSecondName());
-        existingUser.setAge(userDto.getAge());
-        existingUser.setEmail(userDto.getEmail());
+        if (StringUtils.isEmpty(userDto.getFirstName()) ||
+            StringUtils.isEmpty(userDto.getSecondName()) ||
+            StringUtils.isEmpty(userDto.getEmail())) {
+            throw new NotFoundException("Fields are empty!Please, check this!");
+        } else {
+            existingUser.setFirstName(userDto.getFirstName());
+            existingUser.setSecondName(userDto.getSecondName());
+            existingUser.setAge(userDto.getAge());
+            existingUser.setEmail(userDto.getEmail());
+        }
         return userRepository.save(existingUser);
     }
 }
