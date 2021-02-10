@@ -25,4 +25,14 @@ public class BookEntity {
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<AuthorEntity> authors;
+
+    public void addAuthor(AuthorEntity authorEntity) {
+        authors.add(authorEntity);
+        authorEntity.getBooks().add(this);
+    }
+
+    public void removeAuthor(AuthorEntity authorEntity) {
+        authors.remove(authorEntity);
+        authorEntity.getBooks().remove(this);
+    }
 }

@@ -57,8 +57,13 @@ public class BookController {
 
     @PutMapping(value = "/author/{authorId}/book/{bookId}")
     public ResponseEntity<?> addBookToAuthor(@PathVariable(name = "authorId") Long authorId,
-                                   @PathVariable(name = "bookId") Long bookId,
-                                   @RequestBody AuthorDto authorDto) {
-        return bookService.addBookToAuthor(authorId, bookId, authorDto);
+                                   @PathVariable(name = "bookId") Long bookId) {
+        return bookService.addBookToAuthor(authorId, bookId);
+    }
+
+    @DeleteMapping(value = "/author/{authorId}/book/{bookId}")
+    public ResponseEntity<?> removeBookFromAuthor(@PathVariable(name = "authorId") Long authorId,
+                                                  @PathVariable(name = "bookId") Long bookId) {
+        return bookService.removeBookFromAuthor(authorId, bookId);
     }
 }

@@ -6,6 +6,7 @@ import com.project.web.entity.AuthorEntity;
 import com.project.web.mapper.AuthorMapper;
 import com.project.web.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,18 @@ public class AuthorController {
                                                @RequestBody BookDto bookDto) {
         List<AuthorEntity> authors = authorService.getAllAuthorsByBook(bookId, bookDto);
         return authors.stream().map(authorMapper::toDto).collect(Collectors.toList());
+    }
+
+    @PutMapping(value = "/book/{bookId}/author/{authorId}")
+    public ResponseEntity<?> addAuthorToBook(@PathVariable(name = "bookId") Long bookId,
+                                             @PathVariable(name = "authorId") Long authorId) {
+        return authorService.addAuthorToBook(bookId, authorId);
+    }
+
+    @DeleteMapping(value = "/book/{bookId}/author/{authorId}")
+    public ResponseEntity<?> removeAuthorFromBook(@PathVariable(name = "bookId") Long bookId,
+                                                  @PathVariable(name = "authorId") Long authorId) {
+        return authorService.removeAuthorFromBook(bookId, authorId);
     }
 
 }
