@@ -22,10 +22,37 @@ public class BookController {
     @Autowired
     private BookMapper bookMapper;
 
-    @PostMapping(value = "/user/{userId}/book")
-    public BookDto saveBook(@PathVariable(value = "userId") Long userID,
-                            @RequestBody BookDto bookDto) {
-        return bookMapper.toDto(bookService.saveBook(bookDto, userID));
+    @PostMapping(value = "/book")
+    public BookDto saveBook(@RequestBody BookDto bookDto) {
+        return bookMapper.toDto(bookService.saveBook(bookDto));
+    }
+
+    @GetMapping(value = "/book/{bookId}")
+    public BookDto getBookById(@PathVariable(value = "bookId") Long bookId) {
+        return bookMapper.toDto(bookService.getBookById(bookId));
+    }
+
+    @GetMapping(value = "/books")
+    public List<BookDto> getAllBooks() {
+        List<BookEntity> books = bookService.getAllBooks();
+        return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
+    }
+
+    @PutMapping(value = "/book/{bookId}")
+    public BookDto updateBookById (@PathVariable(name = "bookId") Long bookId,
+                                   @RequestBody BookDto bookDto) {
+        return bookMapper.toDto(bookService.updateBookById(bookId, bookDto));
+    }
+
+    @DeleteMapping(value = "/book/{bookId}")
+    public ResponseEntity<?> deleteBookById(@PathVariable(value = "bookId") Long bookId) {
+        return bookService.deleteBookById(bookId);
+    }
+
+    @PostMapping(value = "/user/{userId}/book/{bookId}/add")
+    public ResponseEntity<?> addBookToUser(@PathVariable(value = "userId") Long userId,
+                            @PathVariable(value = "bookId") Long bookId) {
+        return bookService.addBookToUser(userId, bookId);
     }
 
     @GetMapping(value = "/user/{userId}/books")
@@ -34,17 +61,10 @@ public class BookController {
         return books.stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
-    @DeleteMapping(value = "/user/{userId}/book/{bookId}")
-    public ResponseEntity<?> deleteBook (@PathVariable(name = "userId") Long userId,
+    @DeleteMapping(value = "/user/{userId}/book/{bookId}/remove")
+    public ResponseEntity<?> removeBookFromUser (@PathVariable(name = "userId") Long userId,
                                          @PathVariable(value = "bookId") Long bookId) {
-        return bookService.deleteBookById(userId, bookId);
-    }
-
-    @PutMapping(value = "/user/{userId}/book/{bookId}")
-    public BookDto updateBookById (@PathVariable(name = "userId") Long userId,
-                                   @PathVariable(name = "bookId") Long bookId,
-                                   @RequestBody BookDto bookDto) {
-        return bookMapper.toDto(bookService.updateBookById(userId, bookId, bookDto));
+        return bookService.removeBookFromUser(userId, bookId);
     }
 
     @GetMapping(value = "/author/{authorId}/books")

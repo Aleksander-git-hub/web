@@ -3,6 +3,7 @@ package com.project.web.service;
 import com.project.web.dto.AuthorDto;
 import com.project.web.dto.BookDto;
 import com.project.web.entity.BookEntity;
+import com.project.web.entity.User;
 import com.project.web.exceptions.NotFoundException;
 import com.project.web.mapper.BookMapper;
 import com.project.web.repository.AuthorRepository;
@@ -31,16 +32,57 @@ public class BookService {
     @Autowired
     private BookMapper bookMapper;
 
-    public BookEntity saveBook(BookDto bookDto, Long userId) {
+    public BookEntity saveBook(BookDto bookDto) {
+        if (StringUtils.isEmpty(bookDto.getTitle()) ||
+            bookDto.getPrice() == null) {
+            throw new NotFoundException("Fields are empty! Please, check this!");
+        }
+        return bookRepository.save(bookMapper.toEntity(bookDto));
+    }
+
+    public BookEntity getBookById(Long bookId) {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException("Book not found with id: " + bookId));
+    }
+
+    public List<BookEntity> getAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    public BookEntity updateBookById(Long bookId, BookDto bookDto) {
+        if (!bookRepository.existsById(bookId)) {
+            throw new NotFoundException("Book not found with id: " + bookId);
+        }
         if (StringUtils.isEmpty(bookDto.getTitle()) ||
                 bookDto.getPrice() == null) {
             throw new NotFoundException("Fields are empty! Please, check this!");
         }
-        return userRepository.findById(userId)
-                .map(user -> {
-                    bookDto.setUser(user);
-                    return bookRepository.save(bookMapper.toEntity(bookDto));
-                }).orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
+        BookEntity book = bookRepository.getById(bookId);
+        book.setTitle(bookDto.getTitle());
+        book.setPrice(bookDto.getPrice());
+        return bookRepository.save(book);
+    }
+
+    public ResponseEntity<?> deleteBookById(Long bookId) {
+        BookEntity existingBook = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException("Book not found with id: " + bookId));
+        existingBook.setDeleted(true);
+        bookRepository.save(existingBook);
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> addBookToUser(Long userId, Long bookId) {
+        if (!userRepository.existsById(userId)) {
+            throw new NotFoundException("User not found with id: " + userId);
+        }
+        if (StringUtils.isEmpty(bookRepository.getById(bookId).getTitle())) {
+            throw new NotFoundException("Fields are empty! Please, check this!");
+        }
+        User user = userRepository.getById(userId);
+        BookEntity book = bookRepository.getById(bookId);
+        user.addBook(book);
+        book.setUser(user);
+        return ResponseEntity.ok().build();
     }
 
     public List<BookEntity> getAllBooksByUserId(Long userId) {
@@ -50,29 +92,17 @@ public class BookService {
         return bookRepository.findAllByUserId(userId);
     }
 
-    public ResponseEntity<?> deleteBookById(Long userId, Long bookId) {
+    public ResponseEntity<?> removeBookFromUser(Long userId, Long bookId) {
         if (!userRepository.existsById(userId)) {
             throw new NotFoundException("User not found with id: " + userId);
         }
-        bookRepository.findById(bookId)
-                .map(bookEntity -> {
-                    bookRepository.delete(bookEntity);
-                    bookEntity.setDeleted(true);
-                    return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new NotFoundException("Book not found with id: " + bookId));
-        return ResponseEntity.notFound().build();
-    }
-
-    public BookEntity updateBookById(Long userId, Long bookId, BookDto bookDto) {
-        if (!userRepository.existsById(userId)) {
-            throw new NotFoundException("User not found with id: " + userId);
+        if (!bookRepository.existsById(bookId)) {
+            throw new NotFoundException("Book not found with id: " + bookId);
         }
-        return bookRepository.findById(bookId)
-                .map(bookEntity -> {
-                    bookEntity.setTitle(bookDto.getTitle());
-                    bookEntity.setPrice(bookDto.getPrice());
-                    return bookRepository.save(bookEntity);
-                }).orElseThrow(() -> new NotFoundException("Book not found with id: " + bookId));
+        User user = userRepository.getById(userId);
+        BookEntity book = bookRepository.getById(bookId);
+        user.removeBook(book);
+        return ResponseEntity.ok().build();
     }
 
     public List<BookEntity> getAllBooksByAuthor(Long authorId, AuthorDto authorDto) {

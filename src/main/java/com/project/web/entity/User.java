@@ -19,7 +19,15 @@ public class User {
     private Integer age;
     private String email;
     private Boolean deleted = false;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<BookEntity> books;
+
+    public void addBook(BookEntity bookEntity) {
+        books.add(bookEntity);
+    }
+
+    public void removeBook(BookEntity bookEntity) {
+        books.remove(bookEntity);
+    }
 }
