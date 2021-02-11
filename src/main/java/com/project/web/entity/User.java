@@ -20,8 +20,7 @@ public class User {
     private Integer age;
     private String email;
     private Boolean deleted = false;
-    @OneToMany
-    @JoinColumn(name = "user_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<BookEntity> books = new ArrayList<>();
 
     public void addBook(BookEntity bookEntity) {
