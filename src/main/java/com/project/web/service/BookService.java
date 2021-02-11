@@ -79,7 +79,7 @@ public class BookService {
         if (!authorRepository.existsById(authorId)) {
             throw new NotFoundException("Author not found with id: " + authorId);
         }
-        bookRepository.getById(bookId).addAuthor(authorRepository.getById(authorId));
+//        bookRepository.getById(bookId).addAuthor(authorRepository.getById(authorId));
         return ResponseEntity.ok().build();
     }
 
@@ -87,7 +87,7 @@ public class BookService {
         if (!authorRepository.existsById(authorId)) {
             throw new NotFoundException("Author not found with id: " + authorId);
         }
-        bookRepository.getById(bookId).removeAuthor(authorRepository.getById(authorId));
+//        bookRepository.getById(bookId).removeAuthor(authorRepository.getById(authorId));
         return ResponseEntity.ok().build();
     }
 }

@@ -14,15 +14,20 @@ import java.util.List;
 @Entity
 @Table(name = "author")
 public class AuthorEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstName;
+
     private String secondName;
+
     private Boolean deleted = false;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<BookEntity> books = new ArrayList<>();
+    private List<BookEntity> books;
 
 }

@@ -16,7 +16,7 @@ public class BookDto {
     private Long id;
     private String title;
     private Double price;
-    private Boolean deleted = false;
-    private User user;
-    private List<AuthorEntity> authors = new ArrayList<>();
+    private Boolean deleted;
+    private UserDto user;
+    private List<AuthorDto> authors;
 }

@@ -16,5 +16,5 @@ public class UserDto {
     private Integer age;
     private String email;
     private Boolean deleted = false;
-    private List<BookEntity> books = new ArrayList<>();
+    private List<BookEntity> books;
 }

@@ -15,6 +15,6 @@ public class AuthorDto {
     private Long id;
     private String firstName;
     private String secondName;
-    private Boolean deleted = false;
-    private List<BookEntity> books = new ArrayList<>();
+    private Boolean deleted;
+    private List<BookDto> books;
 }

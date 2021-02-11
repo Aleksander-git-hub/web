@@ -28,16 +28,16 @@ public class AuthorController {
         return authors.stream().map(authorMapper::toDto).collect(Collectors.toList());
     }
 
-    @PutMapping(value = "/book/{bookId}/author/{authorId}")
-    public ResponseEntity<?> addAuthorToBook(@PathVariable(name = "bookId") Long bookId,
-                                             @PathVariable(name = "authorId") Long authorId) {
-        return authorService.addAuthorToBook(bookId, authorId);
-    }
-
-    @DeleteMapping(value = "/book/{bookId}/author/{authorId}")
-    public ResponseEntity<?> removeAuthorFromBook(@PathVariable(name = "bookId") Long bookId,
-                                                  @PathVariable(name = "authorId") Long authorId) {
-        return authorService.removeAuthorFromBook(bookId, authorId);
-    }
+//    @PutMapping(value = "/book/{bookId}/author/{authorId}")
+//    public ResponseEntity<?> addAuthorToBook(@PathVariable(name = "bookId") Long bookId,
+//                                             @PathVariable(name = "authorId") Long authorId) {
+//        return authorService.addAuthorToBook(bookId, authorId);
+//    }
+//
+//    @DeleteMapping(value = "/book/{bookId}/author/{authorId}")
+//    public ResponseEntity<?> removeAuthorFromBook(@PathVariable(name = "bookId") Long bookId,
+//                                                  @PathVariable(name = "authorId") Long authorId) {
+//        return authorService.removeAuthorFromBook(bookId, authorId);
+//    }
 
 }

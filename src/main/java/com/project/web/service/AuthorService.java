@@ -30,19 +30,19 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<?> addAuthorToBook(Long bookId, Long authorId) {
-        if (!bookRepository.existsById(bookId)) {
-            throw new NotFoundException("Book not found with id: " + bookId);
-        }
-        bookRepository.getById(bookId).addAuthor(authorRepository.getById(authorId));
-        return ResponseEntity.ok().build();
-    }
-
-    public ResponseEntity<?> removeAuthorFromBook(Long bookId, Long authorId) {
-        if (!bookRepository.existsById(bookId)) {
-            throw new NotFoundException("Book not found with id: " + bookId);
-        }
-        bookRepository.getById(bookId).removeAuthor(authorRepository.getById(authorId));
-        return ResponseEntity.ok().build();
-    }
+//    public ResponseEntity<?> addAuthorToBook(Long bookId, Long authorId) {
+//        if (!bookRepository.existsById(bookId)) {
+//            throw new NotFoundException("Book not found with id: " + bookId);
+//        }
+//        bookRepository.getById(bookId).addAuthor(authorRepository.getById(authorId));
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    public ResponseEntity<?> removeAuthorFromBook(Long bookId, Long authorId) {
+//        if (!bookRepository.existsById(bookId)) {
+//            throw new NotFoundException("Book not found with id: " + bookId);
+//        }
+//        bookRepository.getById(bookId).removeAuthor(authorRepository.getById(authorId));
+//        return ResponseEntity.ok().build();
+//    }
 }
