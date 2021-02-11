@@ -3,6 +3,7 @@ package com.project.web.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,9 +20,9 @@ public class User {
     private Integer age;
     private String email;
     private Boolean deleted = false;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "user_id")
-    private List<BookEntity> books;
+    private List<BookEntity> books = new ArrayList<>();
 
     public void addBook(BookEntity bookEntity) {
         books.add(bookEntity);

@@ -3,6 +3,7 @@ package com.project.web.dto;
 import com.project.web.entity.BookEntity;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,5 +16,5 @@ public class UserDto {
     private Integer age;
     private String email;
     private Boolean deleted = false;
-    private List<BookEntity> books;
+    private List<BookEntity> books = new ArrayList<>();
 }

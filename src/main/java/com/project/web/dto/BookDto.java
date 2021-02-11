@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,5 +18,5 @@ public class BookDto {
     private Double price;
     private Boolean deleted = false;
     private User user;
-    private List<AuthorEntity> authors;
+    private List<AuthorEntity> authors = new ArrayList<>();
 }

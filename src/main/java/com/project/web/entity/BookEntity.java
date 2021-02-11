@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,7 +25,7 @@ public class BookEntity {
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<AuthorEntity> authors;
+    private List<AuthorEntity> authors = new ArrayList<>();
 
     public void addAuthor(AuthorEntity authorEntity) {
         authors.add(authorEntity);

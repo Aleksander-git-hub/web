@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,6 +21,6 @@ public class AuthorEntity {
     private String secondName;
     private Boolean deleted = false;
     @ManyToMany(mappedBy = "authors")
-    private List<BookEntity> books;
+    private List<BookEntity> books = new ArrayList<>();
 
 }
